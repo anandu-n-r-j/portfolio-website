@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forest Burnt Area Mapping using Sentinel Images - Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0055ff;
+      --accent: #e6f0ff;
+      --glass: rgba(255,255,255,0.85);
+      --shadow: 0 8px 32px rgba(0, 85, 255, 0.09), 0 2px 8px rgba(0,0,0,0.04);
+      --gradient: linear-gradient(120deg, #e6f0ff 0%, #c0d7ff 50%, #f5faff 100%);
+      --radius: 22px;
+      --font-heading: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      --font-body: 'Inter', 'Segoe UI', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: var(--font-body);
+      color: #1a2233;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+    /* Animated Gradient Background */
+    .bg-animated {
+      position: fixed;
+      z-index: -2;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--gradient);
+      animation: gradientShift 14s ease-in-out infinite alternate;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    /* Floating Shapes */
+    .floating-shapes {
+      position: fixed;
+      z-index: -1;
+      left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.13;
+      filter: blur(2px);
+      animation: float 8s ease-in-out infinite alternate;
+    }
+    .shape1 { width: 180px; height: 180px; background: #0055ff; left: 15vw; top: 12vh; animation-delay: 0s; }
+    .shape2 { width: 120px; height: 120px; background: #ffb300; right: 10vw; top: 20vh; animation-delay: 2s;}
+    .shape3 { width: 90px; height: 90px; background: #ff0055; left: 50vw; bottom: 10vh; animation-delay: 4s;}
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      100% { transform: translateY(-40px) scale(1.08);}
+    }
+    /* Parallax Header */
+    .parallax-header {
+      background: linear-gradient(110deg, #0055ff 60%, #e6f0ff 100%);
+      color: #fff;
+      text-align: left;
+      padding: 60px 0 40px 0;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      min-height: 330px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .parallax-header::before {
+      content: "";
+      position: absolute;
+      top: -30px; left: 0; right: 0; bottom: -30px;
+      background: url('project1-images/combined-image.png') center/cover no-repeat;
+      opacity: 0.13;
+      z-index: 0;
+      filter: blur(2px);
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-shadow: 0 2px 16px #00339944;
+    }
+    .header-content h1 {
+      font-size: 2.7rem;
+      font-weight: 800;
+      margin: 0 0 10px 0;
+      letter-spacing: 1.2px;
+      color: #fff;
+      font-family: var(--font-heading);
+    }
+    .header-content p {
+      font-size: 1.18rem;
+      color: #e6f0ff;
+      margin-bottom: 0;
+      max-width: 600px;
+    }
+    /* Main Container */
+    .project-detail-container {
+      max-width: 980px;
+      margin: -70px auto 32px auto;
+      background: var(--glass);
+      padding: 38px 34px 32px 34px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(9px);
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.1s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(50px);}
+      to { opacity: 1; transform: none;}
+    }
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 2.3rem 0 1.1rem 0;
+      letter-spacing: 0.6px;
+      border-left: 5px solid var(--primary);
+      padding-left: 15px;
+      background: linear-gradient(90deg, #e6f0ff 70%, #fff 100%);
+      animation: fadeInDown 0.8s;
+      font-family: var(--font-heading);
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: none;}
+    }
+    /* Approach Steps */
+    .star-approach-step {
+      margin-bottom: 32px;
+      padding: 22px 28px 22px 28px;
+      background: linear-gradient(100deg, #f6faff 80%, #e6f0ff 100%);
+      border-left: 6px solid #0055ff;
+      border-radius: 13px;
+      box-shadow: 0 2.5px 10px rgba(0,85,255,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeIn 1.2s;
+      font-family: var(--font-body);
+    }
+    .star-approach-step:hover {
+      box-shadow: 0 8px 32px rgba(0,85,255,0.13);
+      transform: translateY(-4px) scale(1.01);
+    }
+    .star-approach-step strong {
+      color: #0055ff;
+      font-size: 1.13rem;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+      font-family: var(--font-heading);
+    }
+    /* Images Grid */
+    .results-images {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      justify-content: flex-start;
+    }
+    .results-images > div {
+      flex: 1 1 220px;
+      max-width: 240px;
+      min-width: 170px;
+      background: #f8faff;
+      border-radius: 10px;
+      box-shadow: 0 1.5px 8px rgba(0,85,255,0.07);
+      margin-bottom: 12px;
+      text-align: center;
+      padding: 12px 8px 8px 8px;
+      transition: box-shadow 0.18s, transform 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .results-images img {
+      width: 100%;
+      max-width: 220px;
+      border-radius: 7px;
+      box-shadow: 0 1.5px 8px rgba(0,85,255,0.10);
+      margin-bottom: 8px;
+      transition: transform 0.35s cubic-bezier(.4,2,.6,1), box-shadow 0.18s;
+      cursor: zoom-in;
+      background: #fff;
+    }
+    .results-images > div:hover img,
+    .results-images img:focus {
+      transform: scale(1.22) rotate(-2deg);
+      box-shadow: 0 8px 36px 0 rgba(0,85,255,0.17), 0 0 0 4px #e6f0ff;
+      z-index: 2;
+    }
+    .img-caption {
+      font-size: 0.98em;
+      color: #555;
+      margin-bottom: 2px;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+    /* Modal for image zoom */
+    .img-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(10,24,40,0.84);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn 0.3s;
+    }
+    .img-modal-content {
+      max-width: 90vw;
+      max-height: 70vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 48px #0055ff44;
+      margin-bottom: 16px;
+      background: #fff;
+    }
+    .img-modal-caption {
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+      max-width: 90vw;
+      margin-bottom: 12px;
+      font-family: var(--font-heading);
+    }
+    .img-modal-close {
+      color: #fff;
+      font-size: 2.8rem;
+      font-weight: bold;
+      position: absolute;
+      top: 28px; right: 44px;
+      cursor: pointer;
+      z-index: 10001;
+      transition: color 0.2s;
+    }
+    .img-modal-close:hover, .img-modal-close:focus {
+      color: #ffb300;
+    }
+    @media (max-width: 700px) {
+      .img-modal-content { max-width: 98vw; max-height: 50vh; }
+      .img-modal-close { right: 18px; top: 12px; }
+    }
+    /* Lists and Links */
+    .methodology ul, .resources ul, .results ul, .Codes ul {
+      margin-left: 18px;
+      margin-bottom: 0;
+      padding-left: 10px;
+      font-size: 1.04rem;
+      font-family: var(--font-body);
+    }
+    .resources ul, .Codes ul {
+      margin-bottom: 12px;
+    }
+    .resources a, .Codes a {
+      color: #0055ff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.18s;
+      font-family: var(--font-heading);
+    }
+    .resources a:hover, .Codes a:hover {
+      color: #003399;
+      text-decoration: underline;
+    }
+    /* Back Button */
+    .back-link {
+      display: inline-block;
+      margin-top: 36px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.08rem;
+      letter-spacing: 0.2px;
+      background: var(--primary);
+      padding: 12px 28px;
+      border-radius: 9px;
+      transition: background 0.18s, color 0.18s, transform 0.16s;
+      box-shadow: 0 2px 10px rgba(0,85,255,0.09);
+      font-family: var(--font-heading);
+    }
+    .back-link:hover {
+      background: #003399;
+      color: #e6f0ff;
+      transform: translateY(-2px) scale(1.04);
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .parallax-header { padding: 38px 0 24px 0; min-height: 220px;}
+      .header-content h1 { font-size: 1.7rem;}
+      .project-detail-container { padding: 18px 6px; }
+      .results-images { flex-direction: column; gap: 14px;}
+      .results-images > div { max-width: 100%; min-width: 120px;}
+    }
+    @media (max-width: 600px) {
+      .parallax-header { min-height: 120px; }
+      .header-content { padding: 0 8px;}
+      .section-title { font-size: 1.07rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="floating-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+  <!-- Parallax Header -->
+  <div class="parallax-header">
+    <div class="header-content">
+      <h1>Forest Burnt Area Mapping using Sentinel Images</h1>
+      <p>
+        Advanced multi-source remote sensing and AI for accurate, automated mapping of burnt forest areas. Explore the workflow, results, and code resources below.
+      </p>
+    </div>
+  </div>
+
+  <main class="project-detail-container">
+    <div class="section-title">Project Overview</div>
+    <p>
+      This project demonstrates a robust, multi-source approach for mapping burnt forest areas by integrating Sentinel-1 SAR and Sentinel-2 optical satellite data. By combining frequency-tuned saliency detection, advanced clustering, and deep learning, the workflow achieves high-accuracy segmentation of fire-affected regions. Below, each stage of the process is explained with visuals and supporting resources.
+    </p>
+
+    <div class="section-title">Step-by-Step Approach</div>
+
+    <div class="star-approach-step">
+      <strong>1. Frequency-tuned Saliency Detection on Sentinel-1 (VV and VH log-ratios)</strong>
+      <p>
+        The process begins by analyzing Sentinel-1 SAR imagery, focusing on the VV (vertical transmit & receive) and VH (vertical transmit, horizontal receive) polarization channels. Log-ratio images are computed for both VV and VH, which accentuate subtle changes in backscatter caused by burning. Frequency-tuned saliency detection is then applied, highlighting the most prominent burnt features even under cloud cover or varying moisture. This step creates a strong foundation for subsequent segmentation.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="project1-images/VV-log.png" alt="VV Log-Ratio" tabindex="0">
+          <div class="img-caption">Sentinel-1 VV log-ratio</div>
+        </div>
+        <div>
+          <img src="project1-images/VH-log.png" alt="VH Log-Ratio" tabindex="0">
+          <div class="img-caption">Sentinel-1 VH log-ratio</div>
+        </div>
+        <div>
+          <img src="project1-images/masked-vh.png" alt="Masked VH" tabindex="0">
+          <div class="img-caption">Masked VH after saliency detection</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="star-approach-step">
+      <strong>2. Fuzzy C-Means Clustering for Burnt Area Segmentation</strong>
+      <p>
+        Using the enhanced Sentinel-1 saliency maps, Fuzzy C-Means clustering is performed to segment burnt areas. Unlike traditional clustering, FCM allows for soft boundaries, giving each pixel a probability of belonging to multiple clusters. This results in more natural and accurate delineation of burnt regions, especially in heterogeneous landscapes. The segmentation achieved a strong 73% accuracy on the SAR-derived features.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="project1-images/ground-truth.png" alt="Ground Truth" tabindex="0">
+          <div class="img-caption">Ground truth for validation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="star-approach-step">
+      <strong>3. Sentinel-2 dNBR and dNDVI Segmentation</strong>
+      <p>
+        Sentinel-2 optical imagery is used to compute the difference Normalized Burn Ratio (dNBR) and difference NDVI (dNDVI) by comparing pre-fire and post-fire images. These indices highlight vegetation loss and surface changes due to burning. Cloud-masked composites ensure reliability. Segmentation based on dNBR and dNDVI achieved 77% and 72% accuracy, respectively, providing an effective optical-based mapping of burnt areas.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="project1-images/S2-pre.png" alt="Sentinel-2 Pre-Fire" tabindex="0">
+          <div class="img-caption">Sentinel-2 pre-fire composite</div>
+        </div>
+        <div>
+          <img src="project1-images/s2-post.png" alt="Sentinel-2 Post-Fire" tabindex="0">
+          <div class="img-caption">Sentinel-2 post-fire composite</div>
+        </div>
+        <div>
+          <img src="project1-images/NDVI-classification.png" alt="NDVI Classification" tabindex="0">
+          <div class="img-caption">NDVI-based classification</div>
+        </div>
+        <div>
+          <img src="project1-images/NDVI-confusionimage.png" alt="NDVI Confusion Matrix" tabindex="0">
+          <div class="img-caption">NDVI confusion matrix</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="star-approach-step">
+      <strong>4. U-Net Model Fusion for Optimized Segmentation</strong>
+      <p>
+        For the final step, all extracted features—Sentinel-1 VV/VH log-ratios and Sentinel-2 dNBR/dNDVI—are combined and fed into a U-Net deep learning model. U-Net’s encoder-decoder structure excels at pixel-wise segmentation, learning both global and local patterns. This fusion approach pushed the overall segmentation accuracy to 79%, outperforming any single-feature method and offering a reliable tool for operational burnt area mapping.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="project1-images/combined-image.png" alt="U-Net Output" tabindex="0">
+          <div class="img-caption">U-Net segmentation output (all features fused)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Methodology</div>
+    <p>
+      The workflow starts with preprocessing (radiometric calibration, cloud masking, normalization) of Sentinel-1 and Sentinel-2 imagery. Features are extracted using frequency-tuned saliency for SAR and vegetation indices for optical data. Segmentation is performed using FCM and U-Net, and results are validated using ground truth and confusion matrices. The integration of multi-source data enables robust and scalable burnt area mapping.
+    </p>
+
+    <div class="section-title">Codes & Resources</div>
+    <div class="Codes">
+      <ul>
+        <li>
+          <a href="https://code.earthengine.google.com/8794abd23de533f43d1395587fb4f199" target="_blank">
+            Sentinel 1 GEE - Preprocessing of Sentinel 1 images
+          </a>
+        </li>
+        <li>
+          <a href="https://code.earthengine.google.com/cd937c13025347d05f49aab452300e16" target="_blank">
+            Sentinel 2 GEE - Preprocessing of Sentinel 2 images
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="resources">
+      <ul>
+        <li>
+          <a href="RPs/A novel deep Siamese framework for burned area mapping Leveraging.pdf" target="_blank">
+            A novel deep Siamese framework for burned area mapping Leveraging
+          </a>
+        </li>
+        <li>
+          <a href="RPs/A deep convolutional neural network for burn.pdf" target="_blank">
+            A deep convolutional neural network for burn
+          </a>
+        </li>
+        <li>
+          <a href="RPs/An Unsupervised Saliency-Guided Deep Convolutional Neural.pdf" target="_blank">
+            An Unsupervised Saliency-Guided Deep Convolutional Neural
+          </a>
+        </li>
+        <li>
+          <a href="RPs/Automatic Mapping of Burned Areas Using Landsat 8.pdf" target="_blank">
+            Automatic Mapping of Burned Areas Using Landsat 8
+          </a>
+        </li>
+        <li>
+          <a href="RPs/BADI A NOVEL BURNED AREA DETECTION INDEX FOR SENTINEL-2 IMAGERY.pdf" target="_blank">
+            BADI: A Novel Burned Area Detection Index for Sentinel-2 Imagery
+          </a>
+        </li>
+        <li>
+          <a href="RPs/Burnt-Net Wildfire burned area mapping with single post-fire Sentinel-2.pdf" target="_blank">
+            Burnt-Net: Wildfire Burned Area Mapping with Single Post-Fire Sentinel-2
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section-title">Results Snapshot</div>
+    <ul>
+      <li>Fuzzy C-Means clustering: <b>73%</b> accuracy (Sentinel-1 features)</li>
+      <li>dNBR and dNDVI segmentation: <b>77%</b> and <b>72%</b> accuracy (Sentinel-2)</li>
+      <li>U-Net fusion model: <b>79%</b> overall accuracy (multi-source features)</li>
+    </ul>
+    <div class="results-images">
+      <div>
+        <img src="project1-images/combined-image.png" alt="Final Segmentation" tabindex="0">
+        <div class="img-caption">Final U-Net segmentation</div>
+      </div>
+      <div>
+        <img src="project1-images/ground-truth.png" alt="Ground Truth" tabindex="0">
+        <div class="img-caption">Ground truth</div>
+      </div>
+      <div>
+        <img src="project1-images/NDVI-classification.png" alt="NDVI Classification" tabindex="0">
+        <div class="img-caption">NDVI classification</div>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Projects</a>
+  </main>
+
+  <!-- Image Modal for Zoom -->
+  <div id="img-modal" class="img-modal">
+    <span class="img-modal-close" tabindex="0">&times;</span>
+    <img class="img-modal-content" id="img-modal-img" alt="">
+    <div class="img-modal-caption" id="img-modal-caption"></div>
+  </div>
+  <script>
+    // Image click-to-zoom modal
+    document.querySelectorAll('.results-images img').forEach(img => {
+      img.addEventListener('click', function() {
+        const modal = document.getElementById('img-modal');
+        const modalImg = document.getElementById('img-modal-img');
+        const modalCaption = document.getElementById('img-modal-caption');
+        modal.style.display = 'flex';
+        modalImg.src = this.src;
+        modalImg.alt = this.alt;
+        modalCaption.textContent = this.parentElement.querySelector('.img-caption')?.textContent || this.alt;
+      });
+    });
+    document.querySelector('.img-modal-close').onclick = function() {
+      document.getElementById('img-modal').style.display = 'none';
+    };
+    window.onclick = function(event) {
+      if (event.target.classList.contains('img-modal')) {
+        document.getElementById('img-modal').style.display = 'none';
+      }
+    };
+    // Optional: ESC to close modal
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape") {
+        document.getElementById('img-modal').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

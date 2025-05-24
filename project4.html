@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Screening Platform using LLMs - Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0055ff;
+      --accent: #e6f0ff;
+      --glass: rgba(255,255,255,0.85);
+      --shadow: 0 8px 32px rgba(0, 85, 255, 0.09), 0 2px 8px rgba(0,0,0,0.04);
+      --gradient: linear-gradient(120deg, #e6f0ff 0%, #c0d7ff 50%, #f5faff 100%);
+      --radius: 22px;
+      --font-heading: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      --font-body: 'Segoe UI', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: var(--font-body);
+      color: #1a2233;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+    /* Animated Gradient Background */
+    .bg-animated {
+      position: fixed;
+      z-index: -2;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--gradient);
+      animation: gradientShift 14s ease-in-out infinite alternate;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    /* Floating Shapes */
+    .floating-shapes {
+      position: fixed;
+      z-index: -1;
+      left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.13;
+      filter: blur(2px);
+      animation: float 8s ease-in-out infinite alternate;
+    }
+    .shape1 { width: 180px; height: 180px; background: #0055ff; left: 15vw; top: 12vh; animation-delay: 0s; }
+    .shape2 { width: 120px; height: 120px; background: #ffb300; right: 10vw; top: 20vh; animation-delay: 2s;}
+    .shape3 { width: 90px; height: 90px; background: #ff0055; left: 50vw; bottom: 10vh; animation-delay: 4s;}
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      100% { transform: translateY(-40px) scale(1.08);}
+    }
+    /* Parallax Header */
+    .parallax-header {
+      background: linear-gradient(110deg, #0055ff 60%, #e6f0ff 100%);
+      color: #fff;
+      text-align: left;
+      padding: 60px 0 40px 0;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-shadow: 0 2px 16px #00339944;
+    }
+    .header-content h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      margin: 0 0 10px 0;
+      letter-spacing: 1.2px;
+      color: #fff;
+      font-family: var(--font-heading);
+    }
+    .header-content p {
+      font-size: 1.13rem;
+      color: #e6f0ff;
+      margin-bottom: 0;
+      max-width: 600px;
+      font-family: var(--font-body);
+    }
+    /* Main Container */
+    .project-detail-container {
+      max-width: 980px;
+      margin: -50px auto 32px auto;
+      background: var(--glass);
+      padding: 38px 34px 32px 34px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(9px);
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.1s;
+      font-family: var(--font-body);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(50px);}
+      to { opacity: 1; transform: none;}
+    }
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 2.3rem 0 1.1rem 0;
+      letter-spacing: 0.6px;
+      border-left: 5px solid var(--primary);
+      padding-left: 15px;
+      background: linear-gradient(90deg, #e6f0ff 70%, #fff 100%);
+      animation: fadeInDown 0.8s;
+      font-family: var(--font-heading);
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: none;}
+    }
+    .approach-step {
+      margin-bottom: 32px;
+      padding: 22px 28px 22px 28px;
+      background: linear-gradient(100deg, #f6faff 80%, #e6f0ff 100%);
+      border-left: 6px solid #0055ff;
+      border-radius: 13px;
+      box-shadow: 0 2.5px 10px rgba(0,85,255,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeIn 1.2s;
+      font-family: var(--font-body);
+    }
+    .approach-step strong {
+      color: #0055ff;
+      font-size: 1.13rem;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+      font-family: var(--font-heading);
+    }
+    .approach-step:hover {
+      box-shadow: 0 8px 32px rgba(0,85,255,0.13);
+      transform: translateY(-4px) scale(1.01);
+    }
+    ul {
+      margin-left: 18px;
+      margin-bottom: 0;
+      padding-left: 10px;
+      font-size: 1.04rem;
+      font-family: var(--font-body);
+    }
+    .codes ul {
+      margin-bottom: 12px;
+    }
+    .codes a {
+      color: #0055ff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.18s;
+      font-family: var(--font-heading);
+    }
+    .codes a:hover {
+      color: #003399;
+      text-decoration: underline;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 36px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.08rem;
+      letter-spacing: 0.2px;
+      background: var(--primary);
+      padding: 12px 28px;
+      border-radius: 9px;
+      transition: background 0.18s, color 0.18s, transform 0.16s;
+      box-shadow: 0 2px 10px rgba(0,85,255,0.09);
+      font-family: var(--font-heading);
+    }
+    .back-link:hover {
+      background: #003399;
+      color: #e6f0ff;
+      transform: translateY(-2px) scale(1.04);
+    }
+    @media (max-width: 900px) {
+      .parallax-header { padding: 38px 0 24px 0; min-height: 120px;}
+      .header-content h1 { font-size: 1.3rem;}
+      .project-detail-container { padding: 18px 6px; }
+    }
+    @media (max-width: 600px) {
+      .parallax-header { min-height: 70px; }
+      .header-content { padding: 0 8px;}
+      .section-title { font-size: 1.07rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="floating-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+  <!-- Parallax Header -->
+  <div class="parallax-header">
+    <div class="header-content">
+      <h1>Resume Screening Platform using LLMs</h1>
+      <p>
+        Automated, scalable resume parsing and scoring using Large Language Models (LLMs) for efficient recruitment and candidate-job matching.
+      </p>
+    </div>
+  </div>
+
+  <main class="project-detail-container">
+    <div class="section-title">Project Overview</div>
+    <p>
+      This project presents an end-to-end platform for resume screening and analysis powered by Large Language Models (LLMs). The system automates the extraction of key features from resumes, parses them into structured formats, and scores candidates based on job descriptions, enabling faster and more objective recruitment processes.
+    </p>
+
+    <div class="section-title">Workflow & Methodology</div>
+    <div class="approach-step">
+      <strong>1. Resume Conversion & Parsing</strong>
+      <p>
+        Uploaded resumes are first converted into plain text format for uniform processing. LLMs are then used to extract relevant features (such as education, skills, experience) and generate a structured JSON representation of each resume.
+      </p>
+    </div>
+    <div class="approach-step">
+      <strong>2. Resume Template Generation</strong>
+      <p>
+        The parsed JSON data is utilized to automatically generate standardized resume templates. This ensures consistency and readability across all candidate profiles, facilitating easier comparison and review.
+      </p>
+    </div>
+    <div class="approach-step">
+      <strong>3. Resume Scoring & Matching</strong>
+      <p>
+        Each resume is scored against a given job description using LLM-based semantic matching. The platform computes a weighted average score reflecting the candidate's fit for the role, considering both required and preferred qualifications.
+      </p>
+    </div>
+    <div class="approach-step">
+      <strong>4. Asynchronous Processing & Summarization</strong>
+      <p>
+        To handle multiple resumes and job descriptions efficiently, the platform employs asynchronous parsing and summarization. This allows for rapid, scalable analysis and real-time feedback to recruiters or hiring managers.
+      </p>
+    </div>
+
+    <div class="section-title">Key Features</div>
+    <ul>
+      <li>Automated extraction and parsing of resume data using LLMs</li>
+      <li>Standardized JSON resume templates for consistency</li>
+      <li>Semantic scoring and ranking of candidates based on job descriptions</li>
+      <li>Weighted average scoring for nuanced candidate-job matching</li>
+      <li>Asynchronous processing for high throughput and scalability</li>
+      <li>Summarization of job descriptions for rapid screening</li>
+    </ul>
+
+    <div class="section-title">Repository Structure</div>
+    <ul>
+      <li><b>convert_to_txt.py</b>: Converts uploaded resumes to plain text</li>
+      <li><b>extract_features_llm.py</b>: Uses LLMs to extract and structure resume data</li>
+      <li><b>generate_resume_template.py</b>: Creates standardized resume templates from JSON</li>
+      <li><b>score_resume.py</b>: Scores resumes against job descriptions</li>
+      <li><b>weighted_average.py</b>: Calculates weighted average score for candidates</li>
+      <li><b>async_resume_parser.py</b>: Asynchronous resume parsing module</li>
+      <li><b>async_jd_summarizer.py</b>: Asynchronous job description summarization</li>
+      <li><b>README.md</b>: Project overview and usage instructions</li>
+    </ul>
+
+    <div class="section-title">How to Use</div>
+    <ul>
+      <li>Convert resumes to text using <b>convert_to_txt.py</b></li>
+      <li>Extract features and generate JSON using <b>extract_features_llm.py</b></li>
+      <li>Create resume templates with <b>generate_resume_template.py</b></li>
+      <li>Score resumes against job descriptions using <b>score_resume.py</b></li>
+      <li>Use asynchronous modules for batch processing</li>
+      <li>Refer to <b>README.md</b> for detailed setup and instructions</li>
+    </ul>
+
+    <div class="section-title">Code Repository</div>
+    <div class="codes">
+      <ul>
+        <li>
+          <a href="https://github.com/anandu-n-r-j/LLMs-and-Resume-" target="_blank">
+            Resume Screening Platform using LLMs – GitHub
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Projects</a>
+  </main>
+</body>
+</html>

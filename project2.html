@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Air Quality Forecasting using Machine Learning - Details</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0055ff;
+      --accent: #e6f0ff;
+      --glass: rgba(255,255,255,0.85);
+      --shadow: 0 8px 32px rgba(0, 85, 255, 0.09), 0 2px 8px rgba(0,0,0,0.04);
+      --gradient: linear-gradient(120deg, #e6f0ff 0%, #c0d7ff 50%, #f5faff 100%);
+      --radius: 22px;
+      --font-heading: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      --font-body: 'Segoe UI', Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: var(--font-body);
+      color: #1a2233;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
+    /* Animated Gradient Background */
+    .bg-animated {
+      position: fixed;
+      z-index: -2;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--gradient);
+      animation: gradientShift 14s ease-in-out infinite alternate;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    /* Floating Shapes */
+    .floating-shapes {
+      position: fixed;
+      z-index: -1;
+      left: 0; top: 0; width: 100vw; height: 100vh; pointer-events: none;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.13;
+      filter: blur(2px);
+      animation: float 8s ease-in-out infinite alternate;
+    }
+    .shape1 { width: 180px; height: 180px; background: #0055ff; left: 15vw; top: 12vh; animation-delay: 0s; }
+    .shape2 { width: 120px; height: 120px; background: #ffb300; right: 10vw; top: 20vh; animation-delay: 2s;}
+    .shape3 { width: 90px; height: 90px; background: #ff0055; left: 50vw; bottom: 10vh; animation-delay: 4s;}
+    @keyframes float {
+      0% { transform: translateY(0) scale(1);}
+      100% { transform: translateY(-40px) scale(1.08);}
+    }
+    /* Parallax Header */
+    .parallax-header {
+      background: linear-gradient(110deg, #0055ff 60%, #e6f0ff 100%);
+      color: #fff;
+      text-align: left;
+      padding: 60px 0 40px 0;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      min-height: 330px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .parallax-header::before {
+      content: "";
+      position: absolute;
+      top: -30px; left: 0; right: 0; bottom: -30px;
+      background: url('project2-images/forecast-map.png') center/cover no-repeat;
+      opacity: 0.12;
+      z-index: 0;
+      filter: blur(2px);
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      text-shadow: 0 2px 16px #00339944;
+      font-family: var(--font-heading);
+    }
+    .header-content h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      margin: 0 0 10px 0;
+      letter-spacing: 1.2px;
+      color: #fff;
+    }
+    .header-content p {
+      font-size: 1.15rem;
+      color: #e6f0ff;
+      margin-bottom: 0;
+      max-width: 600px;
+      font-family: var(--font-body);
+    }
+    /* Main Container */
+    .project-detail-container {
+      max-width: 980px;
+      margin: -70px auto 32px auto;
+      background: var(--glass);
+      padding: 38px 34px 32px 34px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(9px);
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.1s;
+      font-family: var(--font-body);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(50px);}
+      to { opacity: 1; transform: none;}
+    }
+    .section-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 2.3rem 0 1.1rem 0;
+      letter-spacing: 0.6px;
+      border-left: 5px solid var(--primary);
+      padding-left: 15px;
+      background: linear-gradient(90deg, #e6f0ff 70%, #fff 100%);
+      animation: fadeInDown 0.8s;
+      font-family: var(--font-heading);
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px);}
+      to { opacity: 1; transform: none;}
+    }
+    /* Approach Steps */
+    .approach-step {
+      margin-bottom: 32px;
+      padding: 22px 28px 22px 28px;
+      background: linear-gradient(100deg, #f6faff 80%, #e6f0ff 100%);
+      border-left: 6px solid #0055ff;
+      border-radius: 13px;
+      box-shadow: 0 2.5px 10px rgba(0,85,255,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeIn 1.2s;
+    }
+    .approach-step strong {
+      color: #0055ff;
+      font-size: 1.13rem;
+      display: block;
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+      font-family: var(--font-heading);
+    }
+    .approach-step:hover {
+      box-shadow: 0 8px 32px rgba(0,85,255,0.13);
+      transform: translateY(-4px) scale(1.01);
+    }
+    /* Images Grid */
+    .results-images {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      justify-content: flex-start;
+    }
+    .results-images > div {
+      flex: 1 1 220px;
+      max-width: 240px;
+      min-width: 170px;
+      background: #f8faff;
+      border-radius: 10px;
+      box-shadow: 0 1.5px 8px rgba(0,85,255,0.07);
+      margin-bottom: 12px;
+      text-align: center;
+      padding: 12px 8px 8px 8px;
+      transition: box-shadow 0.18s, transform 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .results-images img {
+      width: 100%;
+      max-width: 220px;
+      border-radius: 7px;
+      box-shadow: 0 1.5px 8px rgba(0,85,255,0.10);
+      margin-bottom: 8px;
+      transition: transform 0.35s cubic-bezier(.4,2,.6,1), box-shadow 0.18s;
+      cursor: zoom-in;
+      background: #fff;
+    }
+    .results-images > div:hover img,
+    .results-images img:focus {
+      transform: scale(1.22) rotate(-2deg);
+      box-shadow: 0 8px 36px 0 rgba(0,85,255,0.17), 0 0 0 4px #e6f0ff;
+      z-index: 2;
+    }
+    .img-caption {
+      font-size: 0.98em;
+      color: #555;
+      margin-bottom: 2px;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+    /* Modal for image zoom */
+    .img-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(10,24,40,0.84);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeIn 0.3s;
+    }
+    .img-modal-content {
+      max-width: 90vw;
+      max-height: 70vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 48px #0055ff44;
+      margin-bottom: 16px;
+      background: #fff;
+    }
+    .img-modal-caption {
+      color: #fff;
+      font-size: 1.1rem;
+      text-align: center;
+      max-width: 90vw;
+      margin-bottom: 12px;
+      font-family: var(--font-heading);
+    }
+    .img-modal-close {
+      color: #fff;
+      font-size: 2.8rem;
+      font-weight: bold;
+      position: absolute;
+      top: 28px; right: 44px;
+      cursor: pointer;
+      z-index: 10001;
+      transition: color 0.2s;
+    }
+    .img-modal-close:hover, .img-modal-close:focus {
+      color: #ffb300;
+    }
+    @media (max-width: 700px) {
+      .img-modal-content { max-width: 98vw; max-height: 50vh; }
+      .img-modal-close { right: 18px; top: 12px; }
+    }
+    /* Lists and Links */
+    .methodology ul, .resources ul, .results ul, .Codes ul {
+      margin-left: 18px;
+      margin-bottom: 0;
+      padding-left: 10px;
+      font-size: 1.04rem;
+      font-family: var(--font-body);
+    }
+    .resources ul, .Codes ul {
+      margin-bottom: 12px;
+    }
+    .resources a, .Codes a {
+      color: #0055ff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.18s;
+      font-family: var(--font-heading);
+    }
+    .resources a:hover, .Codes a:hover {
+      color: #003399;
+      text-decoration: underline;
+    }
+    /* Back Button */
+    .back-link {
+      display: inline-block;
+      margin-top: 36px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.08rem;
+      letter-spacing: 0.2px;
+      background: var(--primary);
+      padding: 12px 28px;
+      border-radius: 9px;
+      transition: background 0.18s, color 0.18s, transform 0.16s;
+      box-shadow: 0 2px 10px rgba(0,85,255,0.09);
+      font-family: var(--font-heading);
+    }
+    .back-link:hover {
+      background: #003399;
+      color: #e6f0ff;
+      transform: translateY(-2px) scale(1.04);
+    }
+    /* Responsive */
+    @media (max-width: 900px) {
+      .parallax-header { padding: 38px 0 24px 0; min-height: 220px;}
+      .header-content h1 { font-size: 1.7rem;}
+      .project-detail-container { padding: 18px 6px; }
+      .results-images { flex-direction: column; gap: 14px;}
+      .results-images > div { max-width: 100%; min-width: 120px;}
+    }
+    @media (max-width: 600px) {
+      .parallax-header { min-height: 120px; }
+      .header-content { padding: 0 8px;}
+      .section-title { font-size: 1.07rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="floating-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+    <div class="shape shape3"></div>
+  </div>
+  <!-- Parallax Header -->
+  <div class="parallax-header">
+    <div class="header-content">
+      <h1>Air Quality Forecasting using Machine Learning</h1>
+      <p>
+        Multi-model ML approach for forecasting PM<sub>2.5</sub> and other pollutants across Indian cities. Advanced data pre-processing, feature selection, and model fusion for actionable environmental insights.
+      </p>
+    </div>
+  </div>
+
+  <main class="project-detail-container">
+    <div class="section-title">Project Overview</div>
+    <p>
+      This project leverages advanced machine learning models—including XGBoost, Random Forest, SVR, and LSTM—to forecast air quality (PM<sub>2.5</sub>, SO<sub>2</sub>, NO<sub>2</sub>, CO, O<sub>3</sub>) in major cities of the Indo-Gangetic Plain, India. The workflow integrates robust data pre-processing, feature engineering, and model evaluation to deliver accurate daily and hourly forecasts, supporting public health and policy interventions.
+    </p>
+
+    <div class="section-title">Workflow & Methodology</div>
+
+    <div class="approach-step">
+      <strong>1. Data Collection & Pre-processing</strong>
+      <p>
+        Air quality and meteorological data were sourced from the Central Pollution Control Board (CPCB) for Delhi, Kanpur, Kolkata, and Haldia. Pre-processing involved handling missing values (mean imputation, linear interpolation), outlier removal (capping/flooring), and normalization. Time series split (80:20) was used for training and validation.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\study-area.png" alt="Study Area Map" tabindex="0">
+          <div class="img-caption">Study area: IGP cities</div>
+        </div>
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\prep-pipeline.png" alt="Data Preprocessing" tabindex="0">
+          <div class="img-caption">Data pipeline & pre-processing steps</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="approach-step">
+      <strong>2. Exploratory Data Analysis & Feature Engineering</strong>
+      <p>
+        Exploratory analysis included correlation heatmaps and box plots to assess feature relationships and outlier impact. Feature selection removed highly correlated variables (PCC &gt; 0.85). Time-based features (season, day-of-week) and meteorological variables were engineered to enhance model performance.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\corr-matrix.png" alt="Correlation Matrix" tabindex="0">
+          <div class="img-caption">Feature correlation matrix</div>
+        </div>
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\box.png" alt="Boxplot PM2.5" tabindex="0">
+          <div class="img-caption">Box plot: PM2.5 before/after outlier removal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="approach-step">
+      <strong>3. Model Development & Evaluation</strong>
+      <p>
+        Multiple ML models were trained and compared: XGBoost, Random Forest, SVR, and LSTM. Hyperparameter tuning was performed using grid search. Model performance was evaluated using RMSE, MAE, MAPE, and R<sup>2</sup> metrics. XGBoost consistently outperformed others, especially for PM<sub>2.5</sub> and SO<sub>2</sub> forecasting.
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\model-comparison.png" alt="Model Comparison" tabindex="0">
+          <div class="img-caption">Model performance comparison</div>
+        </div>
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\featureimppo.png" alt="Feature Importance" tabindex="0">
+          <div class="img-caption">XGBoost feature importance</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="approach-step">
+      <strong>4. Forecasting & Results</strong>
+      <p>
+        The optimized XGBoost model was used for daily and hourly forecasting. Two modules were designed: F<sub>1</sub> (year-wide training) and F<sub>2</sub> (month-specific training). F<sub>2</sub> achieved <b>&lt;20% error</b> in PM<sub>2.5</sub> forecasts up to 3-4 days in advance. Results were validated against CPCB data and compared with national forecasting systems (SAFAR, IITM Pune).
+      </p>
+      <div class="results-images">
+        <div>
+          <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\forr-vs-obs.png" alt="Forecast vs Observed" tabindex="0">
+          <div class="img-caption">Forecast vs. observed PM2.5</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Key Results</div>
+    <ul>
+      <li>XGBoost achieved the lowest RMSE and highest R<sup>2</sup> for all pollutants across cities.</li>
+      <li>F<sub>2</sub> module provided accurate 3-4 day PM<sub>2.5</sub> forecasts (&lt;20% error).</li>
+      <li>Feature importance: Meteorological variables (RH, Temp, Wind), temporal features, and historical pollutant levels.</li>
+      <li>Validated against CPCB and national models (SAFAR, IITM Pune).</li>
+    </ul>
+    <div class="results-images">
+      <div>
+        <img src="C:\Users\anand\Downloads\portfolio_website\project2-images\error-metrics.png" alt="Error Metrics" tabindex="0">
+        <div class="img-caption">RMSE, MAE, MAPE, R<sup>2</sup> for all models</div>
+      </div>
+    </div>
+
+    <div class="section-title">Methodology Summary</div>
+    <ul>
+      <li>Data sources: CPCB, meteorological stations.</li>
+      <li>Pre-processing: Imputation, outlier removal, normalization, time series split.</li>
+      <li>Feature engineering: Correlation analysis, time/seasonal variables.</li>
+      <li>Models: XGBoost, Random Forest, SVR, LSTM; grid search for tuning.</li>
+      <li>Evaluation: RMSE, MAE, MAPE, R<sup>2</sup>; cross-validation.</li>
+    </ul>
+
+    <div class="section-title">Codes</div>
+    <div class="Codes">
+      <ul>
+        <li>
+          <a href="https://github.com/anandu-n-r-j/Air-Quality-Forecasting" target="_blank">
+            Air Quality Forecasting - github
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Projects</a>
+  </main>
+
+  <!-- Image Modal for Zoom -->
+  <div id="img-modal" class="img-modal">
+    <span class="img-modal-close" tabindex="0">&times;</span>
+    <img class="img-modal-content" id="img-modal-img" alt="">
+    <div class="img-modal-caption" id="img-modal-caption"></div>
+  </div>
+  <script>
+    // Image click-to-zoom modal
+    document.querySelectorAll('.results-images img').forEach(img => {
+      img.addEventListener('click', function() {
+        const modal = document.getElementById('img-modal');
+        const modalImg = document.getElementById('img-modal-img');
+        const modalCaption = document.getElementById('img-modal-caption');
+        modal.style.display = 'flex';
+        modalImg.src = this.src;
+        modalImg.alt = this.alt;
+        modalCaption.textContent = this.parentElement.querySelector('.img-caption')?.textContent || this.alt;
+      });
+    });
+    document.querySelector('.img-modal-close').onclick = function() {
+      document.getElementById('img-modal').style.display = 'none';
+    };
+    window.onclick = function(event) {
+      if (event.target.classList.contains('img-modal')) {
+        document.getElementById('img-modal').style.display = 'none';
+      }
+    };
+    // ESC to close modal
+    document.addEventListener('keydown', function(event) {
+      if (event.key === "Escape") {
+        document.getElementById('img-modal').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
