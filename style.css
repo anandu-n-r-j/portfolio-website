@@ -592,4 +592,22 @@
     .profile-pic { width: 110px; height: 110px; }
     #about h2, .resume-title, .projects-title { font-size: 1.3rem;}
   }
-  
+  @media (max-width: 900px) {
+  .home-flex, .about-content, .contact-grid, .resume-columns, .project-grid {
+    flex-direction: column !important;
+    gap: 22px;
+  }
+  .intro-card, .about-image, .about-content, .contact-info, .contact-form, .resume-col, .project-card {
+    max-width: 100% !important;
+    min-width: unset !important;
+  }
+  .project-grid { gap: 24px; }
+}
+
+@media (max-width: 600px) {
+  .navbar { flex-direction: column; gap: 10px; padding: 1rem 2vw;}
+  .section { padding: 38px 5px; }
+  .intro-card, .about-box, .resume-card { padding: 18px 8px; }
+  .profile-pic { width: 110px; height: 110px; }
+  h2, .section-title { font-size: 1.3rem;}
+}
